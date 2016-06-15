@@ -1,4 +1,5 @@
 #include <time.h>
+#include <stdlib.h>
 #include <GL\glut.h>
 
 int N = 30, M = 20;
@@ -12,6 +13,21 @@ int dir, num = 4;
 struct {
 	int x;
 	int y; } s[100];
+
+	class Fructs {
+	public:
+		int x, y;
+
+		void New() {
+			x = rand() % N;
+			y = rand() % M;
+		}
+
+		void DrawApple() {
+			glColor3f(0.0, 0.0, 0.0);
+			glRectf(x * Scale, y * Scale, (x + 1) * Scale, (y + 1) * Scale);
+		}
+	} m[10];
 
 void DrawField() {
 	glColor3f(0.0, 0.0, 0.0);
@@ -43,18 +59,49 @@ void Tick() {
 	if (dir == 1) s[0].x -= 1;
 	if (dir == 2) s[0].x += 1;
 	if (dir == 3) s[0].y -= 1;
+
+	for (int i = 0; i < 10; i++)
+	{
+		if ((s[0].x == m[i].x) && (s[0].y == m[i].y))
+		{
+			num++;
+			m[i].New();
+		}
+	}
+
+	if (s[0].x > N) dir = 1; 
+	if (s[0].x < 0) dir = 2;
+	if (s[0].y > M) dir = 3;
+	if (s[0].y < 0) dir = 0;
+
+	for (int i = 1; i < num; i++)
+	{
+		if (s[0].x == s[i].x && s[0].y == s[i].y) num = i;
+	}
 }
 
 void DrawSnake() {
 	glColor3f(0.0, 0.0, 0.0);
 	for (int i = 0; i < num; i++)
 	{
-		glRectf(s[i].x * Scale + 2, s[i].y * Scale + 2, (s[i].x + 1) * Scale, (s[i].y + 1) * Scale);
+		glRectf(s[i].x * Scale + 2, s[i].y * Scale + 2, (s[i].x + 0.9) * Scale, (s[i].y + 0.9) * Scale);
+	}
+}
+
+void MyKeyboard(int key, int a, int b) {
+	switch (key) {
+	case 101: dir = 0; break;
+	case 102: dir = 2; break;
+	case 100: dir = 1; break;
+	case 103: dir = 3; break;
 	}
 }
 
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	for (int i = 0; i < 10; i++)
+		m[i].DrawApple();
 
 	DrawField();
 	DrawSnake();
@@ -72,6 +119,9 @@ void timer(int = 0) {
 
 int main(int argc, char **argv) {
 
+	for (int i = 0; i < 10; i++)
+		m[i].New();
+
 	s[0].x = 10;
 	s[0].y = 0;
 
@@ -86,6 +136,7 @@ int main(int argc, char **argv) {
 
 	glutDisplayFunc(display);
 	glutTimerFunc(50, timer, 0);
+	glutSpecialFunc(MyKeyboard);
 
 	glutMainLoop();
 }
