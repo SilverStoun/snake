@@ -48,10 +48,6 @@ void DrawField() {
 	glEnd();
 }
 
-void GameWin() {
-	//num = 4;
-}
-
 void Tick() {
 	for (int i = num; i > 0; --i)
 	{
@@ -82,8 +78,6 @@ void Tick() {
 	{
 		if (s[0].x == s[i].x && s[0].y == s[i].y) num = i;
 	}
-	
-	if (num == 10) { GameWin(); }
 }
 
 void DrawSnake() {
@@ -96,11 +90,15 @@ void DrawSnake() {
 
 void MyKeyboard(int key, int a, int b) {
 	switch (key) {
-	case 101: dir = 0; break;
-	case 102: dir = 2; break;
-	case 100: dir = 1; break;
-	case 103: dir = 3; break;
+	case 101: if (dir == 3) { break; } dir = 0; glutTimerFunc(250 - num * 5, timer, 0); break;
+	case 102: if (dir == 1) { break; } dir = 2; glutTimerFunc(250 - num * 5, timer, 0); break;
+	case 100: if (dir == 2) { break; } dir = 1; glutTimerFunc(250 - num * 5, timer, 0); break;
+	case 103: if (dir == 0) { break; } dir = 3; glutTimerFunc(250 - num * 5, timer, 0); break;
 	}
+}
+
+void DrawPoint() {
+
 }
 
 void display() {
@@ -111,12 +109,7 @@ void display() {
 
 	DrawField();
 	DrawSnake();
-
-
-
-
-
-
+	DrawPoint();
 
 	glFlush();
 }
@@ -124,7 +117,22 @@ void display() {
 void timer(int = 0) {
 	display();
 
-	Tick();
+	if (num < 99) { 
+		Tick();
+	}
+	else {
+
+		s[0].x = 10;
+		s[0].y = 0;
+		num = 4;
+
+		for (int i = 0; i < 4; i++)
+		{
+			s[i].x = 10;
+			s[i].y = 0;
+		}
+
+	};
 
 	glutTimerFunc(250 - num * 5, timer, 0);
 }
