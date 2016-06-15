@@ -1,6 +1,18 @@
 #include <time.h>
 #include <stdlib.h>
 #include <GL\glut.h>
+#include <windows.h>
+
+
+
+
+
+
+
+
+
+
+
 
 int N = 30, M = 20;
 int Scale = 25;
@@ -69,10 +81,10 @@ void Tick() {
 		}
 	}
 
-	if (s[0].x > N) dir = 1; 
-	if (s[0].x < 0) dir = 2;
-	if (s[0].y > M) dir = 3;
-	if (s[0].y < 0) dir = 0;
+	if (s[0].x >= N) dir = 1; 
+	if (s[0].x <= 0) dir = 2;
+	if (s[0].y >= M) dir = 3;
+	if (s[0].y <= 0) dir = 0;
 
 	for (int i = 1; i < num; i++)
 	{
@@ -90,10 +102,10 @@ void DrawSnake() {
 
 void MyKeyboard(int key, int a, int b) {
 	switch (key) {
-	case 101: if (dir == 3) { break; } dir = 0; glutTimerFunc(250 - num * 5, timer, 0); break;
-	case 102: if (dir == 1) { break; } dir = 2; glutTimerFunc(250 - num * 5, timer, 0); break;
-	case 100: if (dir == 2) { break; } dir = 1; glutTimerFunc(250 - num * 5, timer, 0); break;
-	case 103: if (dir == 0) { break; } dir = 3; glutTimerFunc(250 - num * 5, timer, 0); break;
+	case 101: if (dir == 3) { break; } dir = 0; break;
+	case 102: if (dir == 1) { break; } dir = 2; break;
+	case 100: if (dir == 2) { break; } dir = 1; break;
+	case 103: if (dir == 0) { break; } dir = 3; break;
 	}
 }
 
@@ -128,8 +140,8 @@ void timer(int = 0) {
 
 		for (int i = 0; i < 4; i++)
 		{
-			s[i].x = 10;
-			s[i].y = 0;
+			s[i].x = 15;
+			s[i].y = 10;
 		}
 
 	};
@@ -144,8 +156,8 @@ int main(int argc, char **argv) {
 
 	for (int i = 0; i < 4; i++)
 	{
-		s[i].x = 10;
-		s[i].y = 0;
+		s[i].x = 15;
+		s[i].y = 10;
 	}
 
 	s[0].x = 10;
