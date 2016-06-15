@@ -48,6 +48,10 @@ void DrawField() {
 	glEnd();
 }
 
+void GameWin() {
+	//num = 4;
+}
+
 void Tick() {
 	for (int i = num; i > 0; --i)
 	{
@@ -78,6 +82,8 @@ void Tick() {
 	{
 		if (s[0].x == s[i].x && s[0].y == s[i].y) num = i;
 	}
+	
+	if (num == 10) { GameWin(); }
 }
 
 void DrawSnake() {
@@ -106,6 +112,12 @@ void display() {
 	DrawField();
 	DrawSnake();
 
+
+
+
+
+
+
 	glFlush();
 }
 
@@ -114,13 +126,19 @@ void timer(int = 0) {
 
 	Tick();
 
-	glutTimerFunc(250, timer, 0);
+	glutTimerFunc(250 - num * 5, timer, 0);
 }
 
 int main(int argc, char **argv) {
 
 	for (int i = 0; i < 10; i++)
 		m[i].New();
+
+	for (int i = 0; i < 4; i++)
+	{
+		s[i].x = 10;
+		s[i].y = 0;
+	}
 
 	s[0].x = 10;
 	s[0].y = 0;
