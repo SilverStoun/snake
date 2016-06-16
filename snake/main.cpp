@@ -4,16 +4,6 @@
 #include <windows.h>
 
 
-
-
-
-
-
-
-
-
-
-
 int N = 30, M = 20;
 int Scale = 25;
 
@@ -142,6 +132,7 @@ void timer(int = 0) {
 		{
 			s[i].x = 15;
 			s[i].y = 10;
+			
 		}
 
 	};
